@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>JS + CSS Clock</title>
 </head>
+
 <body>
 
 
-    <div class="clock">
-      <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
-      </div>
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
     </div>
+  </div>
 
 
   <style>
@@ -43,32 +45,78 @@
       position: relative;
       padding: 2rem;
       box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
+        0 0 0 4px rgba(0, 0, 0, 0.1),
         inset 0 0 0 3px #EFEFEF,
         inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
+        0 0 10px rgba(0, 0, 0, 0.2);
     }
 
     .clock-face {
       position: relative;
       width: 100%;
       height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
+      transform: translateY(-3px);
+      /* account for the height of the clock hands */
     }
 
     .hand {
-      width: 50%;
-      height: 6px;
       background: black;
       position: absolute;
       top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transform-origin: 0%;
+      transition: all 0.1s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
 
+    .clock-face:after {
+      content: '';
+      display: block;
+      width: 25px;
+      height: 25px;
+      border-radius: 100%;
+      background-color: white;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hour-hand {
+      width: 25%;
+      height: 10px;
+    }
+
+    .min-hand {
+      width: 40%;
+      height: 8px;
+    }
+
+    .second-hand {
+      width: 50%;
+      height: 5px;
+    }
   </style>
 
   <script>
+    const Hour = document.querySelector(".hour-hand")
+    const Min = document.querySelector(".min-hand")
+    const Sec = document.querySelector(".second-hand")
 
+    function setTime() {
+      let now = new Date();
+      let hourDeg = now.getHours() * 30 - 90;
+      let minDeg = now.getMinutes() * 6 - 90;
+      let secDeg = now.getSeconds() * 6 - 90;
+      Hour.style.transform = `rotate(${hourDeg}deg)`;
+      Min.style.transform = `rotate(${minDeg}deg)`;
+      Sec.style.transform = `rotate(${secDeg}deg)`;
+    }
+    setTime();
+    setInterval(setTime, 1000);
 
   </script>
 </body>
+
 </html>
