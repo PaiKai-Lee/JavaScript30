@@ -1,22 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Type Ahead 👀</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <form class="search-form">
+            <input type="text" class="search" placeholder="City or State" />
+            <ul class="suggestions">
+                <li>Filter for a city</li>
+                <li>or a state</li>
+            </ul>
+        </form>
+        <script>
+            const endpoint =
+                "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+            function newElement(element) {
+                return document.createElement(element);
+            }
 
-  <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
-    <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
-    </ul>
-  </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+            function select(element) {
+                return document.querySelector(element);
+            }
 
-</script>
-</body>
+            function filterData(allData, value) {
+                return value === ""
+                    ? allData
+                    : allData.filter(
+                          item =>
+                              item.city.toLowerCase().includes(value) ||
+                              item.state.toLowerCase().includes(value)
+                      );
+            }
+
+            function numberWithCommas(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            function showData(e) {
+                const value = input.value.toLowerCase();
+                const matchData = filterData(allData, value);
+                const insertData = matchData
+                    .map(data => {
+                        const { city, state, population } = data;
+                        const regex = new RegExp(value, "g");
+                        const matchCity = city.replace(
+                            regex,
+                            `<span class="hl">${value}</span>`
+                        );
+                        const matchState = state.replace(
+                            regex,
+                            `<span class="hl">${value}</span>`
+                        );
+                        const people = `<span>${numberWithCommas(
+                            population
+                        )}</span>`;
+                        const html = `<li>
+                            <span class="name"> ${matchCity}, ${matchState} </span>
+                            <span class = "population"> ${people} </span>
+                            </li>`;
+
+                        return html;
+                    })
+                    .join("");
+                suggestions.innerHTML = insertData;
+            }
+
+            let allData;
+            fetch(endpoint)
+                .then(res => res.json())
+                .then(res => (allData = res));
+
+            const input = select(".search");
+            const suggestions = select(".suggestions");
+
+            input.addEventListener("keyup", showData);
+            input.addEventListener("change", showData);
+        </script>
+    </body>
 </html>
