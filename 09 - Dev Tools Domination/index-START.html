@@ -18,28 +18,50 @@
     }
 
     // Regular
-
+    console.log("hello")
     // Interpolated
-
+    console.log("hello I'm %s","kai")
     // Styled
-
+    console.log("%c this is color test","font-size:30px; color:blue; text-shadow: 3px 3px 5px grey;")
     // warning!
-
+    console.warn("console.warn")
     // Error :|
-
+    console.error("console.error")
     // Info
-
+    console.info("Crocodiles eat 3-4 people per year")
     // Testing
+    const p = document.querySelector('p');
 
+    console.assert(p.classList.contains('ouch'), 'That is wrong!');
     // clearing
 
     // Viewing DOM Elements
+    console.log(p);
+    console.dir(p);
 
     // Grouping together
+    console.group("test")
+    console.log("test1")
+    console.log("test2")
+    console.log("test3")
+    console.groupEnd("test")
 
     // counting
-
+    console.count("a")
+    console.count("b")
+    console.count("b")
+    console.count("b")
+    console.count("a")
     // timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+
+    console.table(dogs);
 
   </script>
 </body>
