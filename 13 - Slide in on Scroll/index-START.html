@@ -43,21 +43,34 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
-      var timeout;
+    function debounce(func, wait = 15, immediate = true) {
+      let timeout;
       return function() {
-        var context = this, args = arguments;
-        var later = function() {
+        const context = this, args = arguments;
+        const later = function() {
           timeout = null;
           if (!immediate) func.apply(context, args);
         };
-        var callNow = immediate && !timeout;
+        const callNow = immediate && !timeout;
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
       };
     }
-
+    const images = document.querySelectorAll('.slide-in')
+    function slideIn(e){
+      const touchPoint = document.documentElement.clientHeight + window.pageYOffset - 80;
+      console.log(touchPoint)
+      images.forEach(img=>{
+        if(img.offsetTop < touchPoint){
+          img.classList.add('active')
+        }else{
+          img.classList.remove('active')
+        }
+      })
+    }
+    const content = document.querySelector('.site-wrap')
+    document.addEventListener('scroll',debounce(slideIn))
   </script>
 
   <style>
