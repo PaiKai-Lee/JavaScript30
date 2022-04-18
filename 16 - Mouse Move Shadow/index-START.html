@@ -1,40 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Mouse Shadow</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Mouse Shadow</title>
+    </head>
+    <body>
+        <div class="hero">
+            <h1 contenteditable>🔥WOAH!</h1>
+        </div>
 
-  <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
-  </div>
+        <style>
+            :root {
+                --point-x: 0px;
+                --point-y: 0px;
+            }
+            html {
+                color: black;
+                font-family: sans-serif;
+            }
 
-  <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+            body {
+                margin: 0;
+            }
 
-  body {
-    margin: 0;
-  }
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: black;
+            }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+            h1 {
+                text-shadow: 
+                calc(0px - var(--point-x)/3) calc(var(--point-y)/2) hsl(0, 100%, 50%),
+                calc(0px - var(--point-y)/2) calc(0px - var(--point-x)/2) hsl(50, 100%, 50%),
+                calc(var(--point-x)/3) calc(0px - var(--point-y)/2) hsl(100, 100%, 50%),
+                calc(var(--point-y)/2) calc(var(--point-x)/2) hsl(180, 100%, 50%);
+                font-size: 100px;
+            }
+        </style>
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
-  </style>
+        <script>
+            const root = document.querySelector(":root");
+            const textRect = document
+                .querySelector("h1[contenteditable]")
+                .getBoundingClientRect();
 
-<script>
-</script>
-</body>
+            function handlerMoveMove(e) {
+                const { clientX, clientY } = e;
+                const middleY = textRect.top + textRect.height / 2;
+                const middleX = textRect.left + textRect.width / 2;
+                root.style.setProperty("--point-x", clientX - middleX + "px");
+                root.style.setProperty("--point-y", clientY - middleY + "px");
+            }
+            document.addEventListener("mousemove", handlerMoveMove);
+        </script>
+    </body>
 </html>

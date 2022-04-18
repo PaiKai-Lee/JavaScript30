@@ -8,14 +8,20 @@
 
   <script>
     // start with strings, numbers and booleans
-
+    const str = "strings";
+    const num = 100;
+    const boo = true
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
-
+    const copyPlayers = [...players];
+    const team = players.slice();
     // You might think we can just do something like this:
-
+    copyPlayers[2] = str;
+    team[1] = num;
+    console.log(team)
+    console.log(players)
     // however what happens when we update that array?
 
     // now here is the problem!
@@ -43,7 +49,10 @@
     };
 
     // and think we make a copy:
-
+    const newOne = {...person}
+    console.log(newOne);
+    const newOne2 = Object.assign({},person);
+    console.log(newOne2)
     // how do we take a copy instead?
 
     // We will hopefully soon see the object ...spread
